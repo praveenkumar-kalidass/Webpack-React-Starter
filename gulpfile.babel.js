@@ -19,7 +19,7 @@ import webpackConfig from "./webpack.config.babel";
  * Clean build files
  */
 gulp.task("clean", (callback) => {
-  del.sync("./public/assets/", callback);
+  del.sync("./public/", callback);
 });
 
 /**
@@ -30,7 +30,7 @@ gulp.task("sass", function() {
     .pipe(sass().on("error", util.log))
     .pipe(concat("style.css").on("error", util.log))
     .pipe(cssnano().on("error", util.log))
-    .pipe(gulp.dest("./public/assets/"));
+    .pipe(gulp.dest("./public/"));
 });
 
 /**
@@ -40,7 +40,7 @@ gulp.task("bower:js", () => {
   return gulp.src(mainBower("**/*.js"))
     .pipe(concat("bower.js").on("error", util.log))
     .pipe(minifier({}, uglifyjs).on("error", util.log))
-    .pipe(gulp.dest("./public/assets/"));
+    .pipe(gulp.dest("./public/"));
 });
 
 /**
@@ -50,7 +50,7 @@ gulp.task("bower:css", () => {
   return gulp.src(mainBower("**/*.css"))
     .pipe(concat("bower.css").on("error", util.log))
     .pipe(cssnano().on("error", util.log))
-    .pipe(gulp.dest("./public/assets/"));
+    .pipe(gulp.dest("./public/"));
 });
 
 /**
@@ -60,7 +60,7 @@ gulp.task("webpack-build", () => {
   return gulp.src("./src/index.jsx")
     .pipe(webpackStream(webpackConfig, webpack))
     .on("error", (error) => { util.log(error); })
-    .pipe(gulp.dest("public/assets/"));
+    .pipe(gulp.dest("public/"));
 });
 
 /**
@@ -73,7 +73,7 @@ gulp.task("webpack-dev-server", () => {
   devConfig.plugins.unshift(new HotModuleReplacementPlugin());
 
   new WebpackDevServer(webpack(devConfig), {
-    contentBase: "public/assets/",
+    contentBase: "public/",
     stats: {colors: true},
     historyApiFallback: true,
     hot: true,
